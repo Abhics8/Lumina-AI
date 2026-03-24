@@ -1,0 +1,39 @@
+# docker-compose.test.yml
+# Spins up Qdrant + Redis for running integration tests in containers.
+#
+# Usage:
+#   docker-compose -f docker-compose.test.yml up -d
+#   cd backend && pytest tests/ -v -m integration
+#   docker-compose -f docker-compose.test.yml down
+
+version: '3.8'
+
+services:
+  qdrant-test:
+    image: qdrant/qdrant:v1.7.4
+    container_name: lumina-qdrant-test
+    ports:
+      - "6334:6333"
+    tmpfs:
+      - /qdrant/storage  # Ephemeral storage — wiped on container stop
+
+  redis-test:
+    image: redis:7.0-alpine
+    container_name: lumina-redis-test
+    ports:
+      - "6380:6379"
+
+  test-runner:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lumina-test-runner
+    environment:
+      - QDRANT_URL=http://qdrant-test:6333
+      - REDIS_URL=redis://redis-test:6379
+    depends_on:
+      - qdrant-test
+      - redis-test
+    command: >
+      sh -c "pip install pytest pytest-asyncio pytest-cov httpx slowapi &&
+             pytest tests/ -v --cov=app --cov-report=term-missing"

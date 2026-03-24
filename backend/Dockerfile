@@ -1,27 +1,42 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+# ---- Builder Stage ----
+FROM python:3.11-slim AS builder
 
-# Set the working directory in the container
-WORKDIR /app
+WORKDIR /build
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements file into the container at /app
 COPY requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
-COPY . .
+# ---- Runtime Stage ----
+FROM python:3.11-slim AS runtime
 
-# Make port 8000 available to the world outside this container
+WORKDIR /app
+
+# Install only runtime system dependencies (OpenCV needs these)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Copy installed Python packages from builder
+COPY --from=builder /install /usr/local
+
+# Copy application code (no build tools, no cache, no tests)
+COPY app/ ./app/
+
+# Non-root user for security
+RUN useradd --create-home lumina
+USER lumina
+
 EXPOSE 8000
 
-# Run the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/')" || exit 1
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]

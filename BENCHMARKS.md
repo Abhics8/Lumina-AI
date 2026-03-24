@@ -2,6 +2,8 @@
 
 > Performance measurements on local development (M1 Pro, 16GB RAM)
 
+![Locust Benchmark Dashboard](assets/lumina_locust_dashboard.png)
+
 ## Latency Metrics
 
 | Metric | Value | Measurement Method |
