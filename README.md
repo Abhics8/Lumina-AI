@@ -53,18 +53,33 @@ Lumina understands fashion by **style, vibe, and visual similarity** — not jus
 ---
 
 ## 🏗️ Architecture
+```mermaid
+flowchart TD
+    User["User\nImage Upload / Text Query"] --> FE["Next.js 15 Frontend\nTypeScript + Tailwind\nApp Router + Server Components"]
+    FE --> API["FastAPI Backend\nPydantic v2 validation\nOpenAPI auto-docs"]
+    API --> CACHE{Redis Cache\nCache-aside pattern\nTTL-based invalidation}
+    CACHE -->|Cache Miss| PIPELINE[ML Inference Pipeline]
+    CACHE -->|Cache Hit| FE
+    PIPELINE --> OWL["OWLv2\nZero-shot object detection\nIsolates fashion items"]
+    PIPELINE --> SIG["SigLIP\nVision-language embeddings\n768-dim vectors"]
+    PIPELINE --> QWEN["Qwen-VL\nStyle + occasion tagging\nVibe analysis"]
+    OWL --> EMBED[Embedding Generation]
+    SIG --> EMBED
+    EMBED --> QDRANT[("Qdrant Vector DB\n100K+ embeddings\nANN retrieval")]
+    QDRANT --> RESULTS["Ranked Results\n94.2% Recall@10\n45ms p95"]
+    RESULTS --> FE
 ```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│   Next.js    │────▶│   FastAPI    │────▶│   Qdrant     │
-│   Frontend   │     │   Backend    │     │  Vector DB   │
-└──────────────┘     └──────┬───────┘     └──────────────┘
-                            │
-           ┌────────────────┼────────────────┐
-           ▼                ▼                ▼
-     ┌──────────┐    ┌──────────┐    ┌──────────┐
-     │  OWLv2   │    │  SigLIP  │    │ Qwen-VL  │
-     │Detection │    │Embedding │    │ Tagging  │
-     └──────────┘    └──────────┘    └──────────┘
+
+**Embedding pipeline (batch ingestion):**
+```mermaid
+flowchart LR
+    RAW[Raw Product Images] --> DEDUP[Deduplication]
+    DEDUP --> VALIDATE[Schema Validation]
+    VALIDATE --> BATCH[Batch Processor\nCheckpointing]
+    BATCH --> OWL2[OWLv2 Detection]
+    OWL2 --> SIGLIP[SigLIP Embedding]
+    SIGLIP --> IDEM[Idempotent Write]
+    IDEM --> QDB[(Qdrant\n100K+ vectors)]
 ```
 
 ---
@@ -111,7 +126,7 @@ Search using natural language or images:
 ### Option 1: Docker (Recommended)
 ```bash
 # Clone the repository
-git clone https://github.com/AB0204/Lumina-AI.git
+git clone https://github.com/Abhics8/Lumina-AI.git
 cd Lumina-AI
 
 # Start all services
@@ -201,4 +216,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## 👤 Author
 
-**Abhi** - [GitHub](https://github.com/AB0204)
+**Abhi Bhardwaj** — MS Computer Science, George Washington University (May 2026)
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-ab0204.github.io-1B2A4A)](https://ab0204.github.io/Portfolio/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?logo=linkedin)](https://www.linkedin.com/in/abhi-bhardwaj-23b0961a0/)
+[![GitHub](https://img.shields.io/badge/GitHub-Abhics8-181717?logo=github)](https://github.com/Abhics8)
