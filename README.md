@@ -2,7 +2,7 @@
 
 > AI-powered visual commerce engine with semantic fashion search
 
-[![Build Status](https://github.com/AB0204/Lumina-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/AB0204/Lumina-AI/actions)
+[![Build Status](https://github.com/Abhics8/Lumina-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/Abhics8/Lumina-AI/actions)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 [![Next.js 15](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg)](https://fastapi.tiangolo.com/)
@@ -270,6 +270,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 **Abhi Bhardwaj** — MS Computer Science, George Washington University (May 2026)
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-ab0204.github.io-1B2A4A)](https://ab0204.github.io/Portfolio/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-abhics8.github.io-1B2A4A)](https://abhics8.github.io/Portfolio)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?logo=linkedin)](https://www.linkedin.com/in/abhi-bhardwaj-23b0961a0/)
 [![GitHub](https://img.shields.io/badge/GitHub-Abhics8-181717?logo=github)](https://github.com/Abhics8)

@@ -296,7 +296,7 @@ export default function SearchPage() {
                     <p className="text-center text-gray-400">
                         Built by {' '}
                         <a
-                            href="https://github.com/AB0204"
+                            href="https://github.com/Abhics8"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-purple-400 hover:text-purple-300 transition-colors"

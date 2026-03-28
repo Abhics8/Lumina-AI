@@ -202,7 +202,7 @@ with gr.Blocks(title="Lumina AI", theme=gr.themes.Soft()) as demo:
                     s_out = gr.Markdown()
             s_btn.click(search, s_in, s_out)
 
-    gr.Markdown("---\nBuilt by [Abhi Bhardwaj](https://github.com/AB0204) | [GitHub](https://github.com/AB0204/Lumina-AI)")
+    gr.Markdown("---\nBuilt by [Abhi Bhardwaj](https://github.com/Abhics8) | [GitHub](https://github.com/Abhics8/Lumina-AI)")
 
 if __name__ == "__main__":
     demo.launch()

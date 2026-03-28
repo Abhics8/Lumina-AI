@@ -56,7 +56,7 @@ export default function Home() {
               Try Visual Search
             </Link>
             <a
-              href="https://github.com/AB0204/Lumina-AI"
+              href="https://github.com/Abhics8/Lumina-AI"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold transition-all border border-white/20"
@@ -106,7 +106,7 @@ export default function Home() {
           <p className="text-center text-gray-400">
             Built by{' '}
             <a
-              href="https://github.com/AB0204"
+              href="https://github.com/Abhics8"
               target="_blank"
               rel="noopener noreferrer"
               className="text-purple-400 hover:text-purple-300 transition-colors"
